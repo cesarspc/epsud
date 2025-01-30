@@ -1,44 +1,35 @@
-import logo from './logo.svg';
-import React, { useState } from "react";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './App.css';
 
 function App() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleLogin = () => {
-    // Aquí podrías agregar la lógica de autenticación
-    alert(`Usuario: ${username}, Clave: ${password}`);
-  };
+  const navigate = useNavigate();
 
   return (
     <div className="app-container">
-      <header className="login-card">
-        <h1 className="login-title">Login</h1>
-        <div className="form-group">
-          <label htmlFor="username">Usuario</label>
-          <input
-            id="username"
-            type="text"
-            placeholder="Escribe tu usuario"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Clave</label>
-          <input
-            id="password"
-            type="password"
-            placeholder="Escribe tu clave"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <button onClick={handleLogin} className="login-button">
+      <div className="login-card">
+        <h1 className="login-title">Bienvenido</h1>
+        <p style={{ textAlign: 'center', marginBottom: '1rem' }}>
+          Por favor, selecciona una opción:
+        </p>
+
+        {/* Botón para redirigir a la página de inicio de sesión */}
+        <button
+          onClick={() => navigate('/login')}
+          className="login-button"
+          style={{ marginBottom: '10px' }}
+        >
           Iniciar sesión
         </button>
-      </header>
+
+        {/* Botón para redirigir a la página de registro */}
+        <button
+          onClick={() => navigate('/register')}
+          className="login-button"
+        >
+          Registrarse
+        </button>
+      </div>
     </div>
   );
 }
