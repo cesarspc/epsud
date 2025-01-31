@@ -10,7 +10,7 @@ function Login() {
   const handleLogin = () => {
     // Aquí podrías agregar la lógica de autenticación
     alert(`Cédula: ${cedula}, Clave: ${password}`);
-    navigate('/'); // Redirige a la página principal después del login
+    navigate('/menu-usuario'); // Redirige a la página principal después del login
   };
 
   return (
