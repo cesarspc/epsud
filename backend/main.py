@@ -37,6 +37,13 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     return user
 
+# Get doctors
+
+@app.get("/doctors", response_model=list[UserResponse])
+def get_doctors(db: Session = Depends(get_db)):
+    doctors = db.query(User).filter(User.role_id == 2).all()
+    return doctors
+
 # Update a user by ID
 @app.put("/users/{user_id}", response_model=UserResponse)
 def update_user(user_id: int, user: UserCreate, db: Session = Depends(get_db)):
