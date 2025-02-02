@@ -10,6 +10,8 @@ from backend.schemas.specialty import SpecialtyCreate, SpecialtyResponse
 from backend.schemas.user import UserCreate, UserResponse
 from backend.db.dependencies import get_db
 from sqlalchemy.orm import Session
+from fastapi.middleware.cors import CORSMiddleware
+
 
 
 app = FastAPI()
@@ -19,6 +21,14 @@ async def startup_event():
     init_db()
 
 app.add_event_handler("startup", startup_event)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # Ajusta según tu URL de frontend
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Create a new user
 @app.post("/users/", response_model=UserResponse)

@@ -23,6 +23,7 @@ function VerCitas() {
               <p><strong>Fecha:</strong> {cita.fecha}</p>
               <p><strong>Hora:</strong> {cita.hora}</p>
               <p><strong>Motivo:</strong> {cita.motivo}</p>
+              <button className="form-button">Cancelar Cita</button>
             </div>
           ))}
         </div>
