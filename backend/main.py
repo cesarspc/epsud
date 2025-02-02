@@ -95,6 +95,11 @@ def create_specialty(specialty: SpecialtyCreate, db: Session = Depends(get_db)):
     db.refresh(db_specialty)
     return db_specialty
 
+@app.get("/specialties", response_model=list[SpecialtyResponse])
+def get_specialties(db: Session = Depends(get_db)):
+    specialties = db.query(Specialty).all()
+    return specialties
+
 # Appointments
 @app.post("/appointments/", response_model=AppointmentResponse)
 def create_appointment(appointment: AppointmentCreate, db: Session = Depends(get_db)):
