@@ -1,3 +1,4 @@
+from datetime import timedelta
 from fastapi import FastAPI, Depends, HTTPException
 from backend.db.init_db import init_db
 from backend.db.base_models import User
@@ -14,6 +15,7 @@ from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
 import bcrypt
 
+session = {"id": None}
 
 # Hash the password using bcrypt
 def hash_password(password: str) -> str:
@@ -125,6 +127,9 @@ def create_appointment(appointment: AppointmentCreate, db: Session = Depends(get
         raise HTTPException(status_code=400, detail="Doctor is not available at this hour")
 
     db_appointment = Appointment(**appointment.model_dump())
+    if not session["id"]:
+        raise HTTPException(status_code=400, detail="User not logged in")
+    db_appointment.user_id = session["id"]
     db.add(db_appointment)
     db.commit()
     db.refresh(db_appointment)
@@ -156,5 +161,7 @@ def login(user_data: UserLogin, db: Session = Depends(get_db)):
     
     if not user or not verify_password(user_data.password, user.password):
         raise HTTPException(status_code=400, detail="Invalid username or password")
-    
+
+    session["id"] = user.id
+
     return {"message": "Login successful"}
