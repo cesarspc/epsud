@@ -15,3 +15,7 @@ class UserResponse(BaseModel):
     role_id: int = 1
 
     model_config = {"from_attributes": True}
+
+class UserLogin(BaseModel):
+    id: str
+    password: str

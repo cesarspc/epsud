@@ -4,15 +4,24 @@ from backend.db.base_models import User
 from backend.models.appointment import Appointment
 from backend.models.role import Role
 from backend.models.specialty import Specialty
+from backend.prolog_handler import is_doctor_available
 from backend.schemas.appointment import AppointmentCreate, AppointmentResponse
 from backend.schemas.role import RoleCreate, RoleResponse
 from backend.schemas.specialty import SpecialtyCreate, SpecialtyResponse
-from backend.schemas.user import UserCreate, UserResponse
+from backend.schemas.user import UserCreate, UserLogin, UserResponse
 from backend.db.dependencies import get_db
 from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
+import bcrypt
 
 
+# Hash the password using bcrypt
+def hash_password(password: str) -> str:
+    return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+
+# Verify the password using bcrypt
+def verify_password(password: str, hashed_password: str) -> bool:
+    return bcrypt.checkpw(password.encode("utf-8"), hashed_password.encode("utf-8"))
 
 app = FastAPI()
 
@@ -24,7 +33,7 @@ app.add_event_handler("startup", startup_event)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Ajusta según tu URL de frontend
+    allow_origins=["http://localhost:3000"],  # React app
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -33,6 +42,8 @@ app.add_middleware(
 # Create a new user
 @app.post("/users/", response_model=UserResponse)
 async def create_user(user: UserCreate, db: Session = Depends(get_db)):
+    user.password = hash_password(user.password)
+
     db_user = User(**user.model_dump())
     db.add(db_user)
     db.commit()
@@ -107,6 +118,12 @@ def get_specialties(db: Session = Depends(get_db)):
 # Appointments
 @app.post("/appointments/", response_model=AppointmentResponse)
 def create_appointment(appointment: AppointmentCreate, db: Session = Depends(get_db)):
+    appointment_hour = appointment.date_time.strftime("%H:%M")
+
+    # Check if the doctor is available
+    if not is_doctor_available(appointment.doctor_id, appointment_hour):
+        raise HTTPException(status_code=400, detail="Doctor is not available at this hour")
+
     db_appointment = Appointment(**appointment.model_dump())
     db.add(db_appointment)
     db.commit()
@@ -125,8 +142,19 @@ def get_user_appointments(user_id: str, db: Session = Depends(get_db)):
     # Vertify if the user exists
     user = db.query(User).filter(User.id == user_id).first()
     if user is None:
-        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+        raise HTTPException(status_code=404, detail="User not found")
 
     # Get the appointments
     appointments = db.query(Appointment).filter(Appointment.user_id == user_id).all()
     return appointments
+
+# Login
+
+@app.post("/login/")
+def login(user_data: UserLogin, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_data.id).first()
+    
+    if not user or not verify_password(user_data.password, user.password):
+        raise HTTPException(status_code=400, detail="Invalid username or password")
+    
+    return {"message": "Login successful"}
