@@ -1,0 +1,16 @@
+doctors:
+  - doctor_id: "1"
+    available_hours:
+      - "08:00"
+      - "12:00"
+      - "14:00"
+  - doctor_id: "2"
+    available_hours:
+      - "09:00"
+      - "11:00"
+      - "13:00"
+  - doctor_id: "3"
+    available_hours:
+      - "15:00"
+      - "16:00"
+      - "17:00"
