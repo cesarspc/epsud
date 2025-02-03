@@ -48,11 +48,15 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
     return user
 
 # Get doctors
-
 @app.get("/doctors", response_model=list[UserResponse])
 def get_doctors(db: Session = Depends(get_db)):
     doctors = db.query(User).filter(User.role_id == 2).all()
     return doctors
+
+@app.get("/specialties/", response_model=list[SpecialtyResponse])
+def get_specialties(db: Session = Depends(get_db)):
+    specialties = db.query(Specialty).all()
+    return specialties
 
 # Update a user by ID
 @app.put("/users/{user_id}", response_model=UserResponse)
@@ -94,6 +98,11 @@ def create_specialty(specialty: SpecialtyCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(db_specialty)
     return db_specialty
+
+@app.get("/specialties", response_model=list[SpecialtyResponse])
+def get_specialties(db: Session = Depends(get_db)):
+    specialties = db.query(Specialty).all()
+    return specialties
 
 # Appointments
 @app.post("/appointments/", response_model=AppointmentResponse)
