@@ -53,7 +53,10 @@ function AsignarCita() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    
+    if (!selectedDoctor || !selectedSpecialty || !dateTime) {
+      alert('Por favor, completa todos los campos');
+      return;
+    }    
 
     try {
       const response = await fetch('http://localhost:8000/appointments/', {
@@ -64,20 +67,24 @@ function AsignarCita() {
         body: JSON.stringify({
           
           date_time: dateTime,
-          user_id: localStorage.getItem('userId'), // Asumiendo que guardas el ID del usuario en localStorage al iniciar sesión
-          
-
+          doctor_id: selectedDoctor, // Convertimos a string
+          specialty_id: parseInt(selectedSpecialty), // Este sí debe ser número
           status: 'Programada'
         }),
       });
+
+      const responseData = await response.json();
+      
       if (!response.ok) {
+        alert("Error al asignar cita, intente de nuevo: " + JSON.stringify(responseData))
         throw new Error('Error al crear la cita');
+        
       }
 
       alert('Cita asignada exitosamente');
       navigate('/menu-usuario');
     } catch (error) {
-      alert('Error al asignar la cita: ' + error.message);
+      console.error('Error al asignar cita:', error);
     }
   };
 
@@ -92,6 +99,7 @@ function AsignarCita() {
             name="specialty"
             value={selectedSpecialty}
             onChange={handleSelectSpecialtyChange}
+            
           >
             <option value="">-- Selecciona --</option>
             {specialties.map((specialty) => (
@@ -100,7 +108,7 @@ function AsignarCita() {
               </option>
             ))}
           </select>
-
+          <br /> <br />
           <label htmlFor="doctor">Selecciona un doctor:</label>
           <select
             id="doctor"
@@ -115,7 +123,7 @@ function AsignarCita() {
               </option>
             ))}
           </select>
-            
+          <br /> <br />
           <label htmlFor="datetime">Selecciona una fecha y hora:</label>
             <input
               type="datetime-local"
@@ -123,7 +131,7 @@ function AsignarCita() {
               name="datetime"
               onChange={handleDateTimeChange}
           />
-          <br />
+          <br /> <br />
           <button type="submit" className="form-button">
             Asignar Cita
           </button>

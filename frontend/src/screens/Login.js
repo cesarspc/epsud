@@ -10,9 +10,33 @@ function Login() {
   const handleLogin = () => {
     // Aquí podrías agregar la lógica de autenticación
     alert(`Cédula: ${cedula}, Clave: ${password}`);
-    navigate('/menu-usuario'); // Redirige a la página principal después del login
+    navigate('/menu-usuario'); 
   };
 
+
+  const submitLogin = async () => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id: cedula, // Usamos la cédula como ID
+        password: password, // Enviamos la contraseña (debería hashearse en el backend)
+      }),
+    };
+
+    try {
+      const response = await fetch('http://localhost:8000/login/', requestOptions);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Error en el login');
+      }
+    
+      alert('Login exitoso');
+      navigate('/menu-usuario');
+    } catch (error) {
+      alert('Error en el registro: ' + error.message);
+    }
+  };
   return (
     <div className="app-container">
       <div className="login-card">
@@ -39,7 +63,7 @@ function Login() {
             required
           />
         </div>
-        <button onClick={handleLogin} className="login-button">
+        <button onClick={submitLogin} className="login-button">
           Iniciar sesión
         </button>
 
