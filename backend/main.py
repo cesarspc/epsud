@@ -128,9 +128,6 @@ def get_appointments(db: Session = Depends(get_db)):
 @app.put("/appointments/{appointment_id}/cancel", response_model=AppointmentResponse)
 def cancel_appointment(appointment_id: int, db: Session = Depends(get_db)):
     appointment = db.query(Appointment).filter(Appointment.id == appointment_id).first()
-    
-    print(appointment)
-    print(appointment_id)
 
     if not appointment:
         raise HTTPException(status_code=404, detail="Appointment not found")
