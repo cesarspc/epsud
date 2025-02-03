@@ -118,6 +118,30 @@ def get_specialties(db: Session = Depends(get_db)):
     return specialties
 
 # Appointments
+
+# Get all appointments
+@app.get("/appointments", response_model=list[AppointmentResponse])
+def get_appointments(db: Session = Depends(get_db)):
+    appointments = db.query(Appointment).all()
+    return appointments
+
+@app.put("/appointments/{appointment_id}/cancel", response_model=AppointmentResponse)
+def cancel_appointment(appointment_id: int, db: Session = Depends(get_db)):
+    appointment = db.query(Appointment).filter(Appointment.id == appointment_id).first()
+    
+    print(appointment)
+    print(appointment_id)
+
+    if not appointment:
+        raise HTTPException(status_code=404, detail="Appointment not found")
+
+    # Update the status of the appointment
+    appointment.status = "Cancelada"
+    db.commit()
+    db.refresh(appointment)
+
+    return appointment
+
 @app.post("/appointments/", response_model=AppointmentResponse)
 def create_appointment(appointment: AppointmentCreate, db: Session = Depends(get_db)):
     appointment_hour = appointment.date_time.strftime("%H:%M")
@@ -142,12 +166,13 @@ def read_appointment(appointment_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Appointment not found")
     return appointment
 
-@app.get("/users/{user_id}/appointments/", response_model=list[AppointmentResponse])
-def get_user_appointments(user_id: str, db: Session = Depends(get_db)):
+@app.get("/users/appointments/", response_model=list[AppointmentResponse])
+def get_user_appointments(db: Session = Depends(get_db)):
     # Vertify if the user exists
-    user = db.query(User).filter(User.id == user_id).first()
-    if user is None:
-        raise HTTPException(status_code=404, detail="User not found")
+    if not session["id"]:
+        raise HTTPException(status_code=400, detail="User not logged in")
+    
+    user_id = session["id"]
 
     # Get the appointments
     appointments = db.query(Appointment).filter(Appointment.user_id == user_id).all()
