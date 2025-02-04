@@ -8,7 +8,7 @@ def load_prolog():
     
     prolog = Prolog()
     for doctor in data["doctors"]:
-        doctor_id = doctor["doctor_id"]
+        doctor_id = doctor["doctor"]
         for hour in doctor["available_hours"]:
             hour_only = hour[:2]  # Get only the hour part
             prolog.assertz(f"available({doctor_id}, '{hour_only}')")
@@ -19,7 +19,7 @@ def load_prolog():
 prolog = load_prolog()
 
 # Check if a doctor is available at a specific hour
-def is_doctor_available(doctor_id: str, time: str) -> bool:
+def is_doctor_available(doctor: str, time: str) -> bool:
     hour_only = time[:2]
-    query = f"available({doctor_id}, '{hour_only}')"
+    query = f"available({doctor}, '{hour_only}')"
     return bool(list(prolog.query(query)))

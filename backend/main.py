@@ -194,12 +194,20 @@ def login(user_data: UserLogin, db: Session = Depends(get_db)):
 #yaml
 
 @app.get("/available-hours")
-async def get_available_hours():
-    # Obtener la ruta del directorio actual donde está main.py
+async def get_available_hours(db: Session = Depends(get_db)):
+    # Get the current directory of the file
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    # Construir la ruta completa al archivo
+    # Get the path of the yaml file
     yaml_path = os.path.join(current_dir, "available.yml")
     
     with open(yaml_path, "r") as file:
         data = yaml.safe_load(file)
+
+    for doctor in data["doctors"]:
+        doctor_obj = db.query(User).filter(User.id == doctor["doctor"]).first()
+        speciality_obj = db.query(Specialty).filter(Specialty.id == doctor["specialty"]).first()
+        
+        doctor["doctor"] = doctor_obj.name if doctor_obj else "Desconocido"
+        doctor["specialty"] = speciality_obj.name if speciality_obj else "Desconocido"
+
     return data
