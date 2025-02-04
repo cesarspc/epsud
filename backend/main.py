@@ -5,7 +5,7 @@ from backend.db.base_models import User
 from backend.models.appointment import Appointment
 from backend.models.role import Role
 from backend.models.specialty import Specialty
-from backend.prolog_handler import is_doctor_available
+from backend.prolog_handler import is_doctor_able, is_doctor_available
 from backend.schemas.appointment import AppointmentCreate, AppointmentResponse
 from backend.schemas.role import RoleCreate, RoleResponse
 from backend.schemas.specialty import SpecialtyCreate, SpecialtyResponse
@@ -149,6 +149,9 @@ def create_appointment(appointment: AppointmentCreate, db: Session = Depends(get
     # Check if the doctor is available
     if not is_doctor_available(appointment.doctor_id, appointment_hour):
         raise HTTPException(status_code=400, detail="Doctor is not available at this hour")
+    
+    if not is_doctor_able(appointment.doctor_id, appointment.specialty_id):
+        raise HTTPException(status_code=400, detail="Doctor is not able to perform this specialty")
 
     db_appointment = Appointment(**appointment.model_dump())
     if not session["id"]:

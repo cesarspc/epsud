@@ -4,7 +4,7 @@ doctors:
       - "08:00"
       - "12:00"
       - "14:00"
-    specialty: "3"
+    specialty: 3
   - doctor: "2"
     available_hours:
       - "09:00"
@@ -16,4 +16,4 @@ doctors:
       - "15:00"
       - "16:00"
       - "17:00"
-    specialty: "1"
+    specialty: 1
