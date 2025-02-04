@@ -173,7 +173,8 @@ function AsignarCita() {
 
           {yamlData.doctors && yamlData.doctors.map((doctor, index) => (
             <div key={index} style={{ marginBottom: '10px', padding: '8px', backgroundColor: '#fff', borderRadius: '5px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-              <strong>ID:</strong> {doctor.doctor_id} <br />
+              <strong>Dr.</strong> {doctor.doctor} <br />
+              <strong>Dr.</strong> {doctor.specialty} <br />
               <strong>Horas disponibles:</strong>
               <ul>
                 {doctor.available_hours.map((hour, i) => (
