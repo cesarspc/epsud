@@ -14,11 +14,14 @@ from backend.db.dependencies import get_db
 from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
 import bcrypt
+import yaml
+import os
 
 session = {"id": None}
 
 # Hash the password using bcrypt
 def hash_password(password: str) -> str:
+
     return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
 
 # Verify the password using bcrypt
@@ -187,3 +190,16 @@ def login(user_data: UserLogin, db: Session = Depends(get_db)):
     session["id"] = user.id
 
     return {"message": "Login successful"}
+
+#yaml
+
+@app.get("/available-hours")
+async def get_available_hours():
+    # Obtener la ruta del directorio actual donde está main.py
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    # Construir la ruta completa al archivo
+    yaml_path = os.path.join(current_dir, "available.yml")
+    
+    with open(yaml_path, "r") as file:
+        data = yaml.safe_load(file)
+    return data

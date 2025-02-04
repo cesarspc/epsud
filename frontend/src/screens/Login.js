@@ -7,13 +7,6 @@ function Login() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    // Aquí podrías agregar la lógica de autenticación
-    alert(`Cédula: ${cedula}, Clave: ${password}`);
-    navigate('/menu-usuario'); 
-  };
-
-
   const submitLogin = async () => {
     const requestOptions = {
       method: 'POST',

@@ -2,18 +2,37 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../App.css';
 
+
 function AsignarCita() {
   const [dateTime, setDateTime] = useState('');
   const [selectedSpecialty, setSelectedSpecialty] = useState(''); // Agregamos este estado
   const [specialties, setSpecialties] = useState([]);
   const [doctors, setDoctors] = useState([]);
   const [selectedDoctor, setSelectedDoctor] = useState('');
+  const [yamlData, setYamlData] = useState(null)
   const navigate = useNavigate();
+  
 
 
+  useEffect(() => {
+    // Modificamos esta función para obtener los datos del backend
+    const loadYAML = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/available-hours');
+        const data = await response.json();
+        setYamlData(data); 
+      } catch (error) {
+        console.error('Error al cargar horarios disponibles:', error);
+      }
+    };
 
-  const handleSelectDoctorChange = (event) => {
-    setSelectedDoctor(event.target.value);
+    loadYAML();
+  }, []);
+
+
+  const handleSelectDoctorChange = async (event) => {
+    const doctorId = event.target.value;
+    setSelectedDoctor(doctorId);
   };
 
   const handleSelectSpecialtyChange = (event) => {
@@ -92,6 +111,7 @@ function AsignarCita() {
     <div className="app-container">
       <div className="form-card">
         <h1 className="form-title">Asignar Cita</h1>
+        
         <form onSubmit={handleSubmit}>
         <label htmlFor="specialty">Selecciona una especialidad:</label>
           <select
@@ -122,8 +142,9 @@ function AsignarCita() {
                 {doctor.name}
               </option>
             ))}
-          </select>
+          </select>          
           <br /> <br />
+
           <label htmlFor="datetime">Selecciona una fecha y hora:</label>
             <input
               type="datetime-local"
@@ -145,6 +166,24 @@ function AsignarCita() {
           Volver al Menú
         </button>
       </div>
+      {yamlData && (
+        <div className="yaml-preview" style={{ border: '1px solid #ccc', padding: '15px', width: '350px', borderRadius: '8px', backgroundColor: '#f9f9f9' }}>
+          <h2 style={{ textAlign: 'center' }}>Disponibilidad de Doctores</h2>
+          <h3>Doctores</h3>
+
+          {yamlData.doctors && yamlData.doctors.map((doctor, index) => (
+            <div key={index} style={{ marginBottom: '10px', padding: '8px', backgroundColor: '#fff', borderRadius: '5px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
+              <strong>ID:</strong> {doctor.doctor_id} <br />
+              <strong>Horas disponibles:</strong>
+              <ul>
+                {doctor.available_hours.map((hour, i) => (
+                  <li key={i}>{hour}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
