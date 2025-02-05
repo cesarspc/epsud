@@ -8,7 +8,7 @@ This repo has as purpose use several paradigms in the same project, like imperat
 
 ##
 
-We use FastApi and Python for the backend and React.js with JavaScript for the frontend.  SQLAlchemy ORM, bcrypt encryptation, YAML files for the declarative paradigm handling availability of professionals and Prolog for logic paradigm.
+We use FastApi and Python for the backend and React.js with JavaScript for the frontend. Also SQLAlchemy ORM, bcrypt encryptation, YAML files for the declarative paradigm handling availability of professionals and Prolog for logic paradigm.
 
 Technologies and tools in this project:
 
