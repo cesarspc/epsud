@@ -1,30 +1,24 @@
-version: '3.8'
+version: "3.8"
+
 services:
-  fastapi:
-    build: ./Backend
-    container_name: fastapi_app
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
     ports:
       - "8000:8000"
     volumes:
-      - ./Backend:/app
-
+      - ./backend:/app
     depends_on:
-      - sqlite
-
-    sqlite:
-      image: nouchka/sqlite3
-      container_name: sqlite_db
-      volumes:
-        - sqlite_data:/data
+      - frontend
 
   frontend:
-    build: ./frontend
-    container_name: react_app
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
     ports:
       - "3000:3000"
     volumes:
       - ./frontend:/app
-    depends_on:
-      - fastapi
-  volumes:
-      sqlite_data:
+    stdin_open: true
+    tty: true

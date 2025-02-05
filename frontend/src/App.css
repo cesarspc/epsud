@@ -207,3 +207,11 @@
 .cita-item p {
   margin: 0.5rem 0;
 }
+
+.logo {
+  width: 150px;  /* tamaño ajustado a más pequeño */
+  height: 150px; /* mismo valor que el width para asegurar un círculo perfecto */
+  border-radius: 50%; /* esto hace la imagen circular */
+  object-fit: cover; /* asegura que la imagen cubra bien el espacio circular */
+  margin-bottom: 1rem;
+}

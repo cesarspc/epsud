@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../App.css';
+import logo from '../assets/logo.jpg';
 
 function MenuUsuario() {
   const navigate = useNavigate();
@@ -8,6 +9,7 @@ function MenuUsuario() {
   return (
     <div className="app-container">
       <div className="menu-card">
+      <img src={logo} alt="Logo" className="logo" />
         <h1 className="menu-title">Menú de Usuario</h1>
         <div className="button-container">
           {/* Botón para asignar cita */}
