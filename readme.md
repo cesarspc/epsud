@@ -21,4 +21,5 @@ Technologies and tools in this project:
 ## Contact
 
 Cesar Pulido capulidoc@udistrital.edu.co
+
 Juan Diego Lozada jdlozadag@udistrital.edu.co
