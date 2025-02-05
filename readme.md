@@ -18,6 +18,17 @@ Technologies and tools in this project:
 
 ## Setup and Installation
 
+### Docker Deployment
+
+- Build the Docker images:
+
+```bash
+docker-compose build
+```
+- Deploy the containers:
+```bash
+docker-compose up -d
+```
 ## Contact
 
 Cesar Pulido capulidoc@udistrital.edu.co
