@@ -172,6 +172,7 @@ def read_appointment(appointment_id: int, db: Session = Depends(get_db)):
 @app.get("/users/appointments/", response_model=list[AppointmentResponse])
 def get_user_appointments(db: Session = Depends(get_db)):
     # Vertify if the user exists
+
     if not session["id"]:
         raise HTTPException(status_code=400, detail="User not logged in")
     

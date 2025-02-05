@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  fastapi:
+    build: ./Backend
+    container_name: fastapi_app
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./Backend:/app
+
+    depends_on:
+      - sqlite
+
+    sqlite:
+      image: nouchka/sqlite3
+      container_name: sqlite_db
+      volumes:
+        - sqlite_data:/data
+
+  frontend:
+    build: ./frontend
+    container_name: react_app
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+    depends_on:
+      - fastapi
+  volumes:
+      sqlite_data:

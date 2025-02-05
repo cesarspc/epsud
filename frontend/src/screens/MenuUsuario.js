@@ -23,7 +23,7 @@ function MenuUsuario() {
             onClick={() => navigate('/ver-citas')} // Cambia la ruta según tu necesidad
             className="menu-button"
           >
-            Ver Citas Asignadas
+            Historial de Citas
           </button>
         </div>
       </div>
