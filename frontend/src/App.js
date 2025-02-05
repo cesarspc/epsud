@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './App.css';
+import logo from './assets/logo.jpg';
 
 function App() {
   const navigate = useNavigate();
@@ -8,6 +9,7 @@ function App() {
   return (
     <div className="app-container">
       <div className="login-card">
+        <img src={logo} alt="Logo" className="logo" />
         <h1 className="login-title">Bienvenido</h1>
         <p style={{ textAlign: 'center', marginBottom: '1rem' }}>
           Por favor, selecciona una opción:

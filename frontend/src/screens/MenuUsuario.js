@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../App.css';
+import logo from '../assets/logo.jpg';
 
 function MenuUsuario() {
   const navigate = useNavigate();
@@ -10,6 +11,7 @@ function MenuUsuario() {
       <div className="menu-card">
         <h1 className="menu-title">Menú de Usuario</h1>
         <div className="button-container">
+        <img src={logo} alt="Logo" className="logo" />
           {/* Botón para asignar cita */}
           <button
             onClick={() => navigate('/asignar-cita')} // Cambia la ruta según tu necesidad

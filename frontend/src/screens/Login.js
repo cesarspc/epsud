@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../App.css';
+import logo from '../assets/logo.jpg';
 
 function Login() {
   const [cedula, setCedula] = useState('');
@@ -33,6 +34,7 @@ function Login() {
   return (
     <div className="app-container">
       <div className="login-card">
+        <img src={logo} alt="Logo" className="logo" />
         <h1 className="login-title">Iniciar sesión</h1>
         <div className="form-group">
           <label htmlFor="cedula">Cédula</label>

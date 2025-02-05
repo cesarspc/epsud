@@ -18,6 +18,14 @@
   text-align: center;
 }
 
+.logo {
+  width: 150px;  /* tamaño ajustado a más pequeño */
+  height: 150px; /* mismo valor que el width para asegurar un círculo perfecto */
+  border-radius: 50%; /* esto hace la imagen circular */
+  object-fit: cover; /* asegura que la imagen cubra bien el espacio circular */
+  margin-bottom: 1rem;
+}
+
 /* Título */
 .login-title {
   font-size: 1.5rem;

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import logo from '../assets/logo.jpg';
 
 function Register() {
   const [cedula, setCedula] = useState('');
@@ -49,6 +50,7 @@ function Register() {
   return (
     <div className="app-container">
       <div className="login-card">
+        <img src={logo} alt="Logo" className="logo" />
         <h1 className="login-title">Registrarse</h1>
 
         <form onSubmit={handleSubmit}>
