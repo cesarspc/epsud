@@ -1,16 +1,15 @@
-from datetime import timedelta
 from fastapi import FastAPI, Depends, HTTPException
-from backend.db.init_db import init_db
-from backend.db.base_models import User
-from backend.models.appointment import Appointment
-from backend.models.role import Role
-from backend.models.specialty import Specialty
-from backend.prolog_handler import is_doctor_able, is_doctor_available
-from backend.schemas.appointment import AppointmentCreate, AppointmentResponse
-from backend.schemas.role import RoleCreate, RoleResponse
-from backend.schemas.specialty import SpecialtyCreate, SpecialtyResponse
-from backend.schemas.user import UserCreate, UserLogin, UserResponse
-from backend.db.dependencies import get_db
+from models.user import User
+from db.init_db import init_db
+from models.appointment import Appointment
+from models.role import Role
+from models.specialty import Specialty
+from prolog_handler import is_doctor_able, is_doctor_available
+from schemas.appointment import AppointmentCreate, AppointmentResponse
+from schemas.role import RoleCreate, RoleResponse
+from schemas.specialty import SpecialtyCreate, SpecialtyResponse
+from schemas.user import UserCreate, UserLogin, UserResponse
+from db.dependencies import get_db
 from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
 import bcrypt

@@ -1,6 +1,6 @@
 # init_db.py
-from backend.db.session import engine
-from backend.db.base import Base
+from db.session import engine
+from db.base import Base
 
 def init_db():
 

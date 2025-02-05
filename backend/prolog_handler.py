@@ -3,7 +3,7 @@ from pyswip import Prolog
 
 # Load data from YAML file
 def load_prolog():
-    with open('backend/available.yml', 'r') as file:
+    with open('available.yml', 'r') as file:
         data = yaml.safe_load(file)
     
     prolog = Prolog()
@@ -32,5 +32,3 @@ def is_doctor_available(doctor: str, time: str) -> bool:
 def is_doctor_able(doctor_id: str, specialty_id: int) -> bool:
     query = f"has_specialty({doctor_id}, {specialty_id})"
     return bool(list(prolog.query(query)))
-
-print(is_doctor_able("1",2))

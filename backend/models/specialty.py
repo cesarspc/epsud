@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
-from backend.db.base import Base
+from db.base import Base
 
 class Specialty(Base):
     __tablename__ = "specialties"
