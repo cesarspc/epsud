@@ -41,10 +41,14 @@ The Deployment Diagram shows how the application components are deployed across 
 
 ### Activity Diagram
 The Activity Diagram illustrates the workflow of key processes in the application, such as user authentication or appointment booking.
+
+
 <img src="https://github.com/user-attachments/assets/5ec56198-8f9e-45ad-9275-9e22a6468320" alt="Deployment Diagram" width="40%" />
 
 ### Database Diagram
 The Database Diagram represents the structure of the database, including tables, relationships, and key fields.
+
+
 <img src="https://github.com/user-attachments/assets/1f76b7bb-6523-40fa-b7d4-49b17868a0f2" alt="Deployment Diagram" width="55%" />
 
 ## Contact
